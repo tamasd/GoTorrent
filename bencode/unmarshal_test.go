@@ -145,7 +145,7 @@ func TestComplexStructUnmarshal(t *testing.T) {
 	}
 
 	for i := 0; i < 3; i++ {
-		if s.C[i] != uint(i + 1) {
+		if s.C[i] != uint(i+1) {
 			t.Errorf("invalid array value, got %u, expected %u", s.C[i], i+1)
 		}
 	}
@@ -190,6 +190,29 @@ func TestNonstandardNameStruct(t *testing.T) {
 	}
 
 	if s.BB != 2 {
-		t.Errorf("invalid value in struct, git %d, expected 2", s.BB)
+		t.Errorf("invalid value in struct, got %d, expected 2", s.BB)
+	}
+}
+
+type testRawPropertyStruct struct {
+	Raw string
+	A   uint64
+}
+
+func TestRawPropertyUnmarshal(t *testing.T) {
+	b := []byte("d1:ai1ee")
+	var s testRawPropertyStruct
+
+	err := UnmarshalWithRaw(b, &s, "Raw")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if s.A != 1 {
+		t.Errorf("invalid value in struct, got %d, expected 1", s.A)
+	}
+
+	if s.Raw != string(b) {
+		t.Errorf("invalid raw value in struct, got %s, expected %s", s.Raw, string(b))
 	}
 }
