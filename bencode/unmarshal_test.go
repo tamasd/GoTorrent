@@ -44,6 +44,20 @@ func TestStringUnmarshal(t *testing.T) {
 	}
 }
 
+func TestByteStringUnmarshal(t *testing.T) {
+	b := []byte("4:spam")
+	var i []byte
+
+	err := Unmarshal(b, &i)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if string(i) != "spam" {
+		t.Errorf("Unmarshal failed for spam, got: %s", string(i))
+	}
+}
+
 func TestArrayUnmarshal(t *testing.T) {
 	b := []byte("li1ei2ei3ee")
 	var vals []uint64

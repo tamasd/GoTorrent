@@ -1,8 +1,8 @@
 package bencode
 
 import (
-	"testing"
 	"bytes"
+	"testing"
 )
 
 func TestBoolMarshal(t *testing.T) {
@@ -89,8 +89,8 @@ func TestMapMarshal(t *testing.T) {
 }
 
 type testSimpleStruct struct {
-	A uint
-	B *uint
+	A  uint
+	B  *uint
 	S0 testInnerStruct
 	S1 *testInnerStruct
 }

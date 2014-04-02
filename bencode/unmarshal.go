@@ -206,9 +206,16 @@ func (s *scanner) unmarshalString(indirect reflect.Value) error {
 	if err != nil {
 		return err
 	}
-	str := string(s.data[s.position : s.position+uint])
+	data := s.data[s.position : s.position+uint]
+	switch indirect.Kind() {
+	case reflect.String:
+		indirect.SetString(string(data))
+	case reflect.Array, reflect.Slice:
+		indirect.SetBytes(data)
+	default:
+		return errors.New("invalid data type when unmarshalling a string: " + indirect.Kind().String())
+	}
 	s.position += uint
-	indirect.SetString(str)
 
 	return nil
 }
